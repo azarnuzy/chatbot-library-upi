@@ -1,0 +1,11 @@
+.navbar {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  ul {
+    display: flex;
+    gap: 10px;
+    list-style: none;
+  }
+}
