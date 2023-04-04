@@ -1,0 +1,24 @@
+// @mixin text-style($size: $font-size, $line-height: $line-height) {
+//   font-size: rem-calc($size);
+//   line-height: $line-height;
+// }
+
+// @mixin media-query($breakpoint) {
+//   @if $breakpoint == small {
+//     @media (max-width: $small) {
+//       @content;
+//     }
+//   } @else if $breakpoint == medium {
+//     @media (min-width: $small) and (max-width: $medium) {
+//       @content;
+//     }
+//   } @else if $breakpoint == large {
+//     @media (min-width: $medium) and (max-width: $large) {
+//       @content;
+//     }
+//   } @else if $breakpoint == xlarge {
+//     @media (min-width: $large) {
+//       @content;
+//     }
+//   }
+// }
