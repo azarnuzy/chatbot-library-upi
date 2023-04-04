@@ -30,10 +30,21 @@ function Home() {
               <p className='font-medium'>Chatbot Support</p>
             </div>
           </div>
-          <div className='h-[50vh] overflow-y-scroll w-full p-2'>
-            <div className='w-full mr-15 flex gap-3'>
-              <div className='rounded-full p-2 flex items-center justify-center w-[40px] h-[38px] bg-light-gray my-3'>
+          <div className='h-[50vh] mt-4 overflow-x-hidden overflow-y-scroll  p-2'>
+            <div className='ml-3 w-full flex gap-3 mb-5'>
+              <div className='rounded-full p-2 flex items-center justify-center w-[40px] h-[38px] bg-light-gray'>
                 <Bot />
+              </div>
+              <div className='w-full bg-light-silver rounded-xl p-2 shadow-md mr-14'>
+                {firstText}
+              </div>
+            </div>
+            <div className='w-full flex justify-end gap-3 mb-5'>
+              <div className='w-fit  bg-light-silver rounded-xl p-2 shadow-md ml-14'>
+                Halo Selamat Siang
+              </div>
+              <div className='rounded-full p-2 flex items-center justify-center w-[40px] h-[38px] bg-light-gray'>
+                <Vector />
               </div>
             </div>
           </div>
