@@ -1,33 +1,30 @@
 import React, { useState } from 'react'
 import Bot from '../Assets/Icons/Bx_bot'
 import Vector from '../Assets/Icons/Vector'
-import classNames from 'classnames'
 import Send from '../Assets/Icons/send'
 
 function Home() {
-  const messageClasses = classNames('p-2 rounded-lg', {
-    'bg-blue-500 text-white': true,
-    'bg-gray-200': !true,
-    'animate-pulse': true,
-    'transition-opacity duration-500 ease-in-out': !true,
-  })
-
   const firstText =
     'Selamat Datang 👋 di layanan chatbot perpustakaan Universitas Pendidikan Indonesia. Ada yang bisa saya bantu?'
 
-  const [inputUser, setInputUser] = useState([])
-  const [output, setOutput] = useState([])
+  const [chatLog, setChatLog] = useState([
+    { speaker: 'bot', message: firstText },
+  ])
 
-  const [resBot, setResBot] = useState([])
-  const [reqUser, setReqUser] = useState('')
+  const [inputUser, setInputUser] = useState([])
+
   const handleSubmit = (e) => {
     e.preventDefault()
-    setInputUser([...reqUser, inputUser])
-    setResBot([
-      ...output,
-      'Hasil yang anda minta belum dapat diberikan, silahkan masukan kembali...',
-    ])
-    setReqUser('')
+    const newChatLog = [
+      ...chatLog,
+      { speaker: 'user', message: inputUser },
+      {
+        speaker: 'bot',
+        message: 'Saya tidak mengerti maksud anda. Coba tanyakan ulang!',
+      },
+    ]
+    setChatLog(newChatLog)
+    setInputUser('')
   }
 
   return (
@@ -46,28 +43,48 @@ function Home() {
               <p className='font-medium'>Chatbot Support</p>
             </div>
           </div>
-          <div className='h-[50vh] mt-4 overflow-x-hidden overflow-y-scroll  p-2'>
-            <div className='ml-3 w-full flex gap-3 mb-5'>
-              <div className='rounded-full p-2 flex items-center justify-center w-[40px] h-[38px] bg-light-gray'>
-                <Bot />
-              </div>
-              <div className='w-full bg-light-silver rounded-xl p-2 shadow-md mr-14'>
-                {resBot.length === 0 && firstText}
-                {resBot.length > 0 && resBot[resBot.length - 1]}
-              </div>
-            </div>
-            {reqUser.length > 0 && (
-              <div className='w-full flex justify-end gap-3 mb-5'>
-                <div className='w-fit  bg-light-silver rounded-xl p-2 shadow-md ml-14'>
-                  {reqUser.length > 0 && reqUser[reqUser.length - 1]}
-                </div>
+          <div className='h-[50vh] pt-4 overflow-x-hidden overflow-y-scroll  p-2'>
+            {chatLog.length === 1 && (
+              <div className='ml-3 w-full flex gap-3 mb-5'>
                 <div className='rounded-full p-2 flex items-center justify-center w-[40px] h-[38px] bg-light-gray'>
-                  <Vector />
+                  <Bot />
+                </div>
+                <div className='w-full bg-light-silver rounded-xl p-2 shadow-md mr-14'>
+                  {chatLog.length === 1 && firstText}
                 </div>
               </div>
             )}
+            {chatLog.map((item, i) => {
+              return (
+                <>
+                  {chatLog.length !== 1 && item.speaker === 'bot' && (
+                    <div className='ml-3 w-full flex gap-3 mb-5'>
+                      <div className='rounded-full p-2 flex items-center justify-center w-[40px] h-[38px] bg-light-gray'>
+                        <Bot />
+                      </div>
+                      <div className='w-full bg-light-silver rounded-xl p-2 shadow-md mr-14'>
+                        {chatLog.length !== 1 &&
+                          item.speaker === 'bot' &&
+                          item.message}
+                      </div>
+                    </div>
+                  )}
+                  {item.speaker === 'user' && (
+                    <div className='w-full flex justify-end gap-3 mb-5'>
+                      <div className='w-fit  bg-light-silver rounded-xl p-2 shadow-md ml-14'>
+                        {item.speaker === 'user' && item.message}
+                      </div>
+                      <div className='rounded-full p-2 flex items-center justify-center w-[40px] h-[38px] bg-light-gray'>
+                        <Vector />
+                      </div>
+                    </div>
+                  )}
+                </>
+              )
+            })}
           </div>
-          <div className='w-full absolute bottom-0 max-h-[100px] p-2 flex items-center justify-center border-t-[1px] border-slate-200 border-solid'>
+          <div className='h-[80px]'></div>
+          <div className='w-full  absolute bottom-0 max-h-[100px] p-2 flex items-center justify-center border-t-[1px] border-slate-200 border-solid'>
             <form
               className='w-full rounded-full p-2  bg-[#EBEBEB] shadow-sm flex justify-between gap-3 items-center'
               onSubmit={(e) => handleSubmit(e)}
