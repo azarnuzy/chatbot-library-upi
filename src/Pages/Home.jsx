@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Bot from '../Assets/Icons/Bx_bot'
 import Vector from '../Assets/Icons/Vector'
 import classNames from 'classnames'
+import Send from '../Assets/Icons/send'
 
 function Home() {
   const messageClasses = classNames('p-2 rounded-lg', {
@@ -14,10 +15,25 @@ function Home() {
   const firstText =
     'Selamat Datang 👋 di layanan chatbot perpustakaan Universitas Pendidikan Indonesia. Ada yang bisa saya bantu?'
 
+  const [inputUser, setInputUser] = useState([])
+  const [output, setOutput] = useState([])
+
+  const [resBot, setResBot] = useState([])
+  const [reqUser, setReqUser] = useState('')
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    setInputUser([...reqUser, inputUser])
+    setResBot([
+      ...output,
+      'Hasil yang anda minta belum dapat diberikan, silahkan masukan kembali...',
+    ])
+    setReqUser('')
+  }
+
   return (
     <div className='flex gap-8 justify-around'>
       <div className='w-1/2 mt-[10vh] flex justify-end'>
-        <div className='shadow-xl border-[1px] border-solid border-slate-200 rounded-t-xl max-w-2xl min-w-xl lg:w-[80%] w-[90%]'>
+        <div className='shadow-xl border-[1px] border-solid border-slate-200 rounded-t-xl max-w-2xl min-w-xl lg:w-[80%] w-[90%] relative'>
           <div className='bg-light-red rounded-t-xl flex items-center gap-3 px-8'>
             <div className='rounded-full p-2 flex items-center justify-center w-[40px] h-[38px] bg-light-gray my-3'>
               <Bot
@@ -36,17 +52,40 @@ function Home() {
                 <Bot />
               </div>
               <div className='w-full bg-light-silver rounded-xl p-2 shadow-md mr-14'>
-                {firstText}
+                {resBot.length === 0 && firstText}
+                {resBot.length > 0 && resBot[resBot.length - 1]}
               </div>
             </div>
-            <div className='w-full flex justify-end gap-3 mb-5'>
-              <div className='w-fit  bg-light-silver rounded-xl p-2 shadow-md ml-14'>
-                Halo Selamat Siang
+            {reqUser.length > 0 && (
+              <div className='w-full flex justify-end gap-3 mb-5'>
+                <div className='w-fit  bg-light-silver rounded-xl p-2 shadow-md ml-14'>
+                  {reqUser.length > 0 && reqUser[reqUser.length - 1]}
+                </div>
+                <div className='rounded-full p-2 flex items-center justify-center w-[40px] h-[38px] bg-light-gray'>
+                  <Vector />
+                </div>
               </div>
-              <div className='rounded-full p-2 flex items-center justify-center w-[40px] h-[38px] bg-light-gray'>
-                <Vector />
-              </div>
-            </div>
+            )}
+          </div>
+          <div className='w-full absolute bottom-0 max-h-[100px] p-2 flex items-center justify-center border-t-[1px] border-slate-200 border-solid'>
+            <form
+              className='w-full rounded-full p-2  bg-[#EBEBEB] shadow-sm flex justify-between gap-3 items-center'
+              onSubmit={(e) => handleSubmit(e)}
+            >
+              <input
+                type='text'
+                className='w-full outline-none p-2 bg-transparent'
+                placeholder='Tulis Pesan...'
+                value={inputUser}
+                onChange={(e) => setInputUser(e.target.value)}
+              />
+              <button
+                className='mr-2'
+                type='submit'
+              >
+                <Send />
+              </button>
+            </form>
           </div>
         </div>
       </div>
