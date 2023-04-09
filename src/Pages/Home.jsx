@@ -84,7 +84,8 @@ function Home() {
             </div>
             <div
               ref={containerRef}
-              className='h-[50vh] pt-4 overflow-x-hidden overflow-y-scroll  p-2'
+              style={{ scrollBehavior: 'smooth' }}
+              className='h-[50vh] pt-4 overflow-x-hidden transform overflow-y-scroll  p-2 transition-all duration-150 ease-in-out'
             >
               {chatLog.length === 1 && (
                 <div className='ml-3 w-full flex gap-3 mb-5'>
@@ -168,7 +169,7 @@ function Home() {
             informasi tentang:
           </p>
           <ol className='list-decimal pl-8'>
-            <li>Ketersidaan buku</li>
+            <li>Ketersediaan buku</li>
             <li>Lokasi buku</li>
             <li>Tanggal peminjaman dan pengembalian</li>
             <li>Informasi denda peminjaman buku yang terlambat</li>
