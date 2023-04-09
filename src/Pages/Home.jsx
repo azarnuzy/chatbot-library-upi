@@ -69,7 +69,7 @@ function Home() {
       />
       <div className='flex flex-col justify-center sm:flex-row gap-8 sm:justify-around'>
         <div className='w-full sm:w-1/2 mt-5 sm:mt-10 lg:mt-[3vh]  flex justify-center sm:justify-end'>
-          <div className='shadow-xl border-[1px] border-solid border-slate-200 rounded-t-xl max-w-2xl min-w-xl lg:w-[80%] w-[90%] relative'>
+          <div className='shadow-xl border-[1px] border-solid border-slate-200 rounded-xl max-w-2xl min-w-xl lg:w-[80%] w-[90%] relative'>
             <div className='bg-light-red rounded-t-xl flex items-center gap-3 px-8'>
               <div className='rounded-full p-2 flex items-center justify-center w-[40px] h-[38px] bg-light-gray my-3'>
                 <Bot
@@ -85,7 +85,7 @@ function Home() {
             <div
               ref={containerRef}
               style={{ scrollBehavior: 'smooth' }}
-              className='h-[50vh] pt-4 overflow-x-hidden transform overflow-y-scroll  p-2 transition-all duration-150 ease-in-out'
+              className='h-[60vh] sm:h-[50vh] pt-4 overflow-x-hidden transform overflow-y-scroll  p-2 transition-all duration-150 ease-in-out'
             >
               {chatLog.length === 1 && (
                 <div className='ml-3 w-full flex gap-3 mb-5'>
@@ -99,7 +99,7 @@ function Home() {
               )}
               {chatLog.map((item, i) => {
                 return (
-                  <>
+                  <div key={i}>
                     {chatLog.length !== 1 && item.speaker === 'bot' && (
                       <>
                         <div className='ml-3 w-full flex gap-3 mb-5'>
@@ -111,8 +111,11 @@ function Home() {
                           </div>
                         </div>
                         {item?.option?.length > 0 &&
-                          item.option.map((suggest) => (
-                            <div className='ml-3 w-full flex gap-3 mb-2'>
+                          item.option.map((suggest, i) => (
+                            <div
+                              className='ml-3 w-full flex gap-3 mb-2'
+                              key={i}
+                            >
                               <button
                                 onClick={() => handleClick(suggest)}
                                 className='ml-[52px] shadow w-fit border-1 border border-solid border-light-silver  rounded-xl p-2 mr-14'
@@ -133,7 +136,7 @@ function Home() {
                         </div>
                       </div>
                     )}
-                  </>
+                  </div>
                 )
               })}
             </div>
