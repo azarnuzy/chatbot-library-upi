@@ -54,7 +54,7 @@ function Home() {
       const res = await axios.post(
         'http://perpustakaan.upi.edu:3000/v1/api/message',
         {
-          input: input,
+          input: input.toLowerCase(),
         },
         {
           withCredentials: true,
@@ -92,13 +92,13 @@ function Home() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    await postRes(inputUser.toLowerCase())
+    await postRes(inputUser)
     scrollToBottom()
     // await containerRef.current.scrollTo(0, containerRef.current.scrollHeight)
   }
   const handleClick = async (item) => {
     setInputUser(inputUser)
-    await postRes(item.toLowerCase())
+    await postRes(item)
     scrollToBottom()
     // await containerRef.current.scrollTo(0, containerRef.current.scrollHeight)
   }
