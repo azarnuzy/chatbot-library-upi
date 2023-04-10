@@ -13,6 +13,10 @@ function App() {
           path='/'
           element={<Home />}
         />
+        <Route
+          path='/chatbot'
+          element={<Home />}
+        />
       </Routes>
       <Footer />
     </>

@@ -50,7 +50,6 @@ function Home() {
 
   const postRes = async (input) => {
     try {
-      console.log(input)
       const res = await axios.post(
         'http://perpustakaan.upi.edu:4000/v1/api/message',
         {
@@ -61,7 +60,6 @@ function Home() {
         }
       )
 
-      console.log(res.data.data)
       const message = res.data.data.message
       const option = res.data.data.option
       const newChatLog = [
