@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Bot from '../Assets/Icons/Bx_bot'
 import Vector from '../Assets/Icons/Vector'
 import Send from '../Assets/Icons/send'
@@ -7,8 +7,7 @@ import homeImg from '../Assets/Images/home.png'
 import axios from 'axios'
 
 function Home() {
-  const firstText =
-    'Selamat Datang 👋 di layanan chatbot perpustakaan Universitas Pendidikan Indonesia. Ada yang bisa saya bantu?'
+  const [firstText, setFirstText] = useState([])
 
   const [chatLog, setChatLog] = useState([
     { speaker: 'bot', message: firstText },
@@ -17,45 +16,91 @@ function Home() {
   const containerRef = useRef(0)
   const [inputUser, setInputUser] = useState([])
 
-  const postRes = async (input) => {
-    // const res = await axios.post(
-    //   'http://perpustakaan.upi.edu:5000/predict',
-    //   {
-    //     input: inputUser,
-    //   },
-    //   {
-    //     headers: {
-    //       'Content-Type': 'multipart/form-data',
-    //     },
-    //   }
-    // )
+  useEffect(() => {
+    const postReq = async (input) => {
+      try {
+        const res = await axios.post(
+          'http://perpustakaan.upi.edu:3000/v1/api/message',
+          {
+            input: 'Halo Selamat Datang',
+          },
+          {
+            withCredentials: true,
+          }
+        )
 
-    const newChatLog = [
-      ...chatLog,
-      { speaker: 'user', message: input },
-      {
-        speaker: 'bot',
-        message: 'Saya tidak mengerti maksud anda. Coba tanyakan ulang!',
-        option: [
-          'Kapan perpustakaan buka?',
-          'Bagaimana cara meminjam buku?',
-          'Saya ingin memperpanjang peminjaman buku',
-        ],
-      },
-    ]
-    setChatLog(newChatLog)
-    setInputUser('')
+        const message = res?.data?.data?.message
+        const option = res?.data?.data?.option
+        const newChatLog = [
+          {
+            message: message,
+            option: option,
+          },
+        ]
+
+        setFirstText(newChatLog)
+        return res.data.data
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    postReq()
+  }, [])
+
+  const postRes = async (input) => {
+    try {
+      console.log(input)
+      const res = await axios.post(
+        'http://perpustakaan.upi.edu:3000/v1/api/message',
+        {
+          input: input,
+        },
+        {
+          withCredentials: true,
+        }
+      )
+
+      console.log(res.data.data)
+      const message = res.data.data.message
+      const option = res.data.data.option
+      const newChatLog = [
+        ...chatLog,
+        { speaker: 'user', message: input },
+        {
+          speaker: 'bot',
+          message: message,
+          option: option,
+        },
+      ]
+
+      setChatLog(newChatLog)
+      setInputUser('')
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const scrollToBottom = () => {
+    setTimeout(() => {
+      containerRef.current.scrollTo({
+        top: containerRef.current.scrollHeight,
+        behavior: 'smooth',
+      })
+    }, 0)
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    await postRes(inputUser)
-    containerRef.current.scrollTo(0, containerRef.current.scrollHeight)
+    await postRes(inputUser.toLowerCase())
+    scrollToBottom()
+    // await containerRef.current.scrollTo(0, containerRef.current.scrollHeight)
   }
   const handleClick = async (item) => {
     setInputUser(inputUser)
-    await postRes(item)
-    containerRef.current.scrollTo(0, containerRef.current.scrollHeight)
+    await postRes(item.toLowerCase())
+    scrollToBottom()
+    // await containerRef.current.scrollTo(0, containerRef.current.scrollHeight)
   }
 
   return (
@@ -87,45 +132,64 @@ function Home() {
               style={{ scrollBehavior: 'smooth' }}
               className='h-[60vh] sm:h-[50vh] pt-4 overflow-x-hidden transform overflow-y-scroll  p-2 transition-all duration-150 ease-in-out'
             >
-              {chatLog.length === 1 && (
-                <div className='ml-3 w-full flex gap-3 mb-5'>
-                  <div className='rounded-full p-2 flex items-center justify-center w-[40px] h-[38px] bg-light-gray'>
-                    <Bot />
+              {console.log(firstText)}
+              {firstText[0]?.message.length !== 0 && (
+                <div>
+                  <div className='ml-3 w-full flex gap-3 mb-5'>
+                    <div className='rounded-full p-2 flex items-center justify-center w-[40px] h-[38px] bg-light-gray'>
+                      <Bot />
+                    </div>
+                    <div className='w-fit bg-light-silver rounded-xl p-2 shadow-md mr-14'>
+                      {firstText[0]?.message}
+                    </div>
                   </div>
-                  <div className='w-fit bg-light-silver rounded-xl p-2 shadow-md mr-14'>
-                    {chatLog.length === 1 && firstText}
-                  </div>
+                  {firstText[0]?.option?.length > 0 &&
+                    firstText[0].option.map((suggest, i) => (
+                      <div
+                        className='ml-3 w-full flex gap-3 mb-2'
+                        key={i}
+                      >
+                        <button
+                          onClick={() => handleClick(suggest)}
+                          className='ml-[52px] shadow w-fit border-1 border border-solid border-light-silver  rounded-xl p-2 mr-14'
+                        >
+                          {suggest}
+                        </button>
+                      </div>
+                    ))}
                 </div>
               )}
               {chatLog.map((item, i) => {
                 return (
                   <div key={i}>
-                    {chatLog.length !== 1 && item.speaker === 'bot' && (
-                      <>
-                        <div className='ml-3 w-full flex gap-3 mb-5'>
-                          <div className='rounded-full p-2 flex items-center justify-center w-[40px] h-[38px] bg-light-gray'>
-                            <Bot />
-                          </div>
-                          <div className='w-fit bg-light-silver rounded-xl p-2 shadow-md mr-14'>
-                            {item.message}
-                          </div>
-                        </div>
-                        {item?.option?.length > 0 &&
-                          item.option.map((suggest, i) => (
-                            <div
-                              className='ml-3 w-full flex gap-3 mb-2'
-                              key={i}
-                            >
-                              <button
-                                onClick={() => handleClick(suggest)}
-                                className='ml-[52px] shadow w-fit border-1 border border-solid border-light-silver  rounded-xl p-2 mr-14'
-                              >
-                                {suggest}
-                              </button>
+                    {chatLog.length !== 1 &&
+                      item.message.length !== 0 &&
+                      item.speaker === 'bot' && (
+                        <>
+                          <div className='ml-3 w-full flex gap-3 mb-5'>
+                            <div className='rounded-full p-2 flex items-center justify-center w-[40px] h-[38px] bg-light-gray'>
+                              <Bot />
                             </div>
-                          ))}
-                      </>
-                    )}
+                            <div className='w-fit bg-light-silver rounded-xl p-2 shadow-md mr-14'>
+                              {item.message}
+                            </div>
+                          </div>
+                          {item?.option?.length > 0 &&
+                            item.option.map((suggest, i) => (
+                              <div
+                                className='ml-3 w-full flex gap-3 mb-2'
+                                key={i}
+                              >
+                                <button
+                                  onClick={() => handleClick(suggest)}
+                                  className='ml-[52px] shadow w-fit border-1 border border-solid border-light-silver  rounded-xl p-2 mr-14'
+                                >
+                                  {suggest}
+                                </button>
+                              </div>
+                            ))}
+                        </>
+                      )}
                     {item.speaker === 'user' && (
                       <div className='w-full flex justify-end gap-3 mb-5'>
                         <div className='w-fit  bg-light-silver rounded-xl p-2 shadow-md ml-14'>
