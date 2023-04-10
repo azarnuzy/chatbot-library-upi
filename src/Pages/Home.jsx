@@ -20,7 +20,7 @@ function Home() {
     const postReq = async (input) => {
       try {
         const res = await axios.post(
-          'http://perpustakaan.upi.edu:3000/v1/api/message',
+          'http://perpustakaan.upi.edu:4000/v1/api/message',
           {
             input: 'Halo Selamat Datang',
           },
@@ -52,7 +52,7 @@ function Home() {
     try {
       console.log(input)
       const res = await axios.post(
-        'http://perpustakaan.upi.edu:3000/v1/api/message',
+        'http://perpustakaan.upi.edu:4000/v1/api/message',
         {
           input: input.toLowerCase(),
         },
