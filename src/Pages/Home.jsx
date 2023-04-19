@@ -118,8 +118,8 @@ function Home() {
             <div className='bg-light-red rounded-t-xl flex items-center gap-3 px-8'>
               <div className='rounded-full p-2 flex items-center justify-center w-[40px] h-[38px] bg-light-gray my-3'>
                 <Bot
-                  width={'28'}
-                  height={'28'}
+                // width={'28'}
+                // height={'28'}
                 />
               </div>
               <div className='py-1 '>

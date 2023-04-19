@@ -10,7 +10,7 @@ export default function Sidebar() {
   }
 
   return (
-    <div className='max-w-[80px] bg-dark-gray flex flex-col h-screen shadow-md justify-between py-8 w-[80px] items-center'>
+    <div className='max-w-[80px] px-4 bg-dark-gray flex flex-col h-screen drop-shadow-2xl justify-between py-8 w-[80px] items-center'>
       <div className='flex flex-col gap-4 items-center'>
         <img
           src={logo}
