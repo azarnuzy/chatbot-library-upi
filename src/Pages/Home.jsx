@@ -5,6 +5,8 @@ import Send from '../Assets/Icons/send'
 import SEOHead from '../Components/SEO/SEOHead'
 import homeImg from '../Assets/Images/home.png'
 import axios from 'axios'
+import Navbar from '../Components/Navbar/Navbar'
+import Footer from '../Components/Footer/Footer'
 
 function Home() {
   const [firstText, setFirstText] = useState([])
@@ -110,6 +112,7 @@ function Home() {
         image={homeImg}
         url='https://v1-dev-chatbot-upi.netlify.app/'
       />
+      <Navbar />
       <div className='flex flex-col justify-center sm:flex-row gap-8 sm:justify-around'>
         <div className='w-full sm:w-1/2 mt-5 sm:mt-10 lg:mt-[3vh]  flex justify-center sm:justify-end'>
           <div className='shadow-xl border-[1px] border-solid border-slate-200 rounded-xl max-w-2xl min-w-xl lg:w-[80%] w-[90%] relative'>
@@ -246,6 +249,7 @@ function Home() {
           <h3 className='text-lg font-bold'>Mulai untuk bertanya sekarang!</h3>
         </div>
       </div>
+      <Footer />
     </>
   )
 }

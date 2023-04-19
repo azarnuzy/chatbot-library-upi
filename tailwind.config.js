@@ -4,9 +4,13 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'dark-gray': '#222',
+        'dark-gray': '#202123',
+        'dark-gray-2': '#303134',
+        'dark-gray-3': '#343541',
         'light-red': '#FE4D4D',
-        'light-gray': '#747474',
+        'light-white': '#f2f2f2',
+        'light-gray': '#DDD',
+        'light-gray-2': '#5A5A5A',
         'light-silver': '#D9D9D9',
       },
     },

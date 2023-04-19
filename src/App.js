@@ -3,11 +3,11 @@ import './App.css'
 import Footer from './Components/Footer/Footer'
 import Navbar from './Components/Navbar/Navbar'
 import Home from './Pages/Home'
+import NewHome from './Pages/NewHome'
 
 function App() {
   return (
     <>
-      <Navbar />
       <Routes>
         <Route
           path='/'
@@ -15,10 +15,9 @@ function App() {
         />
         <Route
           path='/chatbot'
-          element={<Home />}
+          element={<NewHome />}
         />
       </Routes>
-      <Footer />
     </>
   )
 }
