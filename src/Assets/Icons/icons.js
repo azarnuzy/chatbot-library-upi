@@ -38,7 +38,7 @@ const Chat = () => {
   )
 }
 
-const Sun = () => {
+const Sun = ({ className }) => {
   return (
     <>
       <svg
@@ -46,6 +46,7 @@ const Sun = () => {
         height='31'
         viewBox='0 0 32 31'
         fill='none'
+        className={className}
         xmlns='http://www.w3.org/2000/svg'
       >
         <path
@@ -57,12 +58,13 @@ const Sun = () => {
   )
 }
 
-const moon = () => {
+const Moon = ({ className }) => {
   return (
     <>
       <svg
         width='31'
         height='31'
+        className={className}
         viewBox='0 0 31 31'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'
@@ -176,4 +178,4 @@ const User = () => {
   )
 }
 
-export { HomeIcon, Chat, moon, Sun, Robot, Send, User }
+export { HomeIcon, Chat, Moon, Sun, Robot, Send, User }

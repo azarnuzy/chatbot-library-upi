@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
-import Bot from '../Assets/Icons/Bx_bot'
-import Vector from '../Assets/Icons/Vector'
-import Send from '../Assets/Icons/send'
+
+import { Robot as Bot, User as Vector, Send } from '../Assets/Icons/icons'
 import SEOHead from '../Components/SEO/SEOHead'
 import homeImg from '../Assets/Images/home.png'
 import axios from 'axios'
