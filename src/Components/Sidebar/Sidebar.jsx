@@ -25,13 +25,17 @@ export default function Sidebar() {
       </div>
 
       <button
-        className={`flex items-center relative justify-center w-[50px]  rounded-full flex-col border-[1px] border-dark-gray-4 broder-solid py-1 gap-4`}
+        className={`flex items-center relative justify-center w-[50px]  rounded-full flex-col border border-1 border-dark-gray-4 broder-solid py-1 outline-none transition duration-200 shadow-inner  gap-4`}
         onClick={toggleDarkMode}
       >
-        <Sun className='relative z-10 w-[40px] h-[40px]' />
-        <Moon className='relative z-10 w-[40px] h-[40px]' />
+        <Sun
+          className={`relative z-10 w-[40px] h-[40px] transition-opacity duration-200 `}
+        />
+        <Moon
+          className={`relative z-10 w-[40px] h-[40px] transition-opacity duration-200 `}
+        />
         <div
-          className={`w-11 absolute z-0 h-11 p-1 rounded-full ${
+          className={`w-[46px] absolute z-0 h-[46px] p-1 rounded-full ${
             darkMode ? 'bg-light-red' : 'bg-dark-gray-3'
           } transition-all transform ${
             darkMode ? '-translate-y-7' : 'translate-y-7'
