@@ -1,11 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react'
 
-import { Robot as Bot, User as Vector, Send } from '../Assets/Icons/icons'
+// import {  Bot, Vector Send } from '../Assets/Icons/icons'
 import SEOHead from '../Components/SEO/SEOHead'
 import homeImg from '../Assets/Images/home.png'
 import axios from 'axios'
 import Navbar from '../Components/Navbar/Navbar'
 import Footer from '../Components/Footer/Footer'
+
+import { Send } from '../Assets/Icons/icons'
+import Vector from '../Assets/Icons/Vector'
+import Bot from '../Assets/Icons/Bx_bot'
 
 function Home() {
   const [firstText, setFirstText] = useState([])
