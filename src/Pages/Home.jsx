@@ -130,7 +130,6 @@ function Home() {
               style={{ scrollBehavior: 'smooth' }}
               className='h-[60vh] sm:h-[50vh] pt-4 overflow-x-hidden transform overflow-y-scroll  p-2 transition-all duration-150 ease-in-out'
             >
-              {console.log(firstText)}
               {firstText[0]?.message.length !== 0 && (
                 <div>
                   <div className='ml-3 w-full flex gap-3 mb-5'>
