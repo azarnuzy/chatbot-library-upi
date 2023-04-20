@@ -11,7 +11,7 @@ function ChatPage() {
     <NewLayout>
       {
         /* Main Content */
-        <div className='flex flex-col gap-4 w-full'>
+        <div className='flex flex-col gap-4 w-full mt-16 sm:mt-0'>
           {initialState.chatLog.map((item, i) => {
             // console.log(initialState.isLoading)
             return (

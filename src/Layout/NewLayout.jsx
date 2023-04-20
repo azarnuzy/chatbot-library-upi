@@ -9,12 +9,16 @@ import {
   setLoading,
 } from '../Features/chat/chatSlice'
 import moment from 'moment'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 function NewLayout({ children }) {
   const dispatch = useDispatch()
   const initialState = useSelector(getState)
   const [isMounted, setIsMounted] = useState(false)
   const containerRef = useRef(0)
+  const navigate = useNavigate()
+  const location = useLocation()
+  const { pathname } = location
 
   useEffect(() => {
     // For fade animation when change page
@@ -86,6 +90,7 @@ function NewLayout({ children }) {
           },
         ])
       )
+      navigate('/chat')
     }, 800)
     // scroll to bottom newest chat
     setTimeout(() => {
@@ -96,7 +101,7 @@ function NewLayout({ children }) {
   return (
     <div className={`flex ${initialState.darkMode ? '' : 'dark'}`}>
       <Sidebar />
-      <div className='w-full relative'>
+      <div className='w-full relative h-screen'>
         {/* Main Background  */}
         <div
           className={`${
@@ -107,7 +112,7 @@ function NewLayout({ children }) {
         <div
           ref={containerRef}
           style={{ scrollBehavior: 'smooth' }}
-          className={`h-[83vh] sm:h-[86vh] lg:h-[85vh] pt-4 overflow-x-hidden transform overflow-y-scroll  p-2 transition-all duration-500 ease-in-out max-w-4xl w-full mx-auto  opacity-0 ${
+          className={`h-[85vh] sm:h-[86vh] lg:h-[85vh] pt-4 overflow-x-hidden transform overflow-y-scroll  p-2 transition-all duration-500 ease-in-out max-w-4xl w-full mx-auto  opacity-0 ${
             isMounted ? 'opacity-100' : 'opacity-0'
           }`}
         >

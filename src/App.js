@@ -5,6 +5,7 @@ import Navbar from './Components/Navbar/Navbar'
 import Home from './Pages/Home'
 import NewHome from './Pages/NewHome'
 import ChatPage from './Pages/Chat'
+import About from './Pages/About'
 
 function App() {
   return (
@@ -21,6 +22,10 @@ function App() {
         <Route
           path='/chat'
           element={<ChatPage />}
+        />
+        <Route
+          path='/about'
+          element={<About />}
         />
       </Routes>
     </div>

@@ -25,7 +25,7 @@ if (localStorage.getItem('chatLog')) {
 
 let tempMode = true
 if (localStorage.getItem('mode')) {
-  tempMode = localStorage.getItem('mode')
+  tempMode = JSON.parse(localStorage.getItem('mode'))
 }
 
 console.log(tempMode)

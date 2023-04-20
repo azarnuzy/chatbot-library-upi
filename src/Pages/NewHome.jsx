@@ -80,7 +80,7 @@ function NewHome() {
     <NewLayout>
       {/* Main Content */}
 
-      <div className='flex w-full justify-center mt-10'>
+      <div className='flex w-full justify-center mt-14 sm:mt-10'>
         <img
           src={logo}
           alt='Logo Universitas with Description'
