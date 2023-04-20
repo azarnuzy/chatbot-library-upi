@@ -18,12 +18,22 @@ import { createSlice } from '@reduxjs/toolkit'
 //       }
 //     }
 //   );
+let tempChatLog = []
+if (localStorage.getItem('chatLog')) {
+  tempChatLog = JSON.parse(localStorage.getItem('chatLog'))
+}
 
+let tempMode = true
+if (localStorage.getItem('mode')) {
+  tempMode = localStorage.getItem('mode')
+}
+
+console.log(tempMode)
 const initialState = {
   inputUser: '',
-  darkMode: false,
+  darkMode: tempMode,
   showMenu: true,
-  chatLog: [],
+  chatLog: tempChatLog,
   isLoading: false,
 }
 

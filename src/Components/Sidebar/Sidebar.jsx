@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import logo from '../../Assets/Images/Logo-circle.png'
 import { Chat, HomeIcon, Menu, Moon, Sun } from '../../Assets/Icons/icons'
 import { NavLink } from 'react-router-dom'
@@ -27,9 +27,10 @@ export default function Sidebar() {
   const initialState = useSelector(getState)
 
   const dispatch = useDispatch()
-
+  const darkMode = initialState.darkMode
   const toggleDarkMode = () => {
     dispatch(setDarkMode(initialState.darkMode))
+    localStorage.setItem('mode', !initialState.darkMode)
   }
 
   return (
@@ -85,9 +86,9 @@ export default function Sidebar() {
             />
             <div
               className={`w-[46px] absolute z-0 h-[46px] p-1 rounded-full ${
-                initialState.darkMode ? 'bg-light-red' : 'bg-dark-gray-3'
-              } transition-all transform ${
-                initialState.darkMode ? '-translate-y-7' : 'translate-y-7'
+                darkMode && 'bg-light-red'
+              } ${!darkMode && 'bg-dark-gray-3'} transition-all transform ${
+                darkMode ? '-translate-y-7' : 'translate-y-7'
               }`}
             ></div>
           </button>
@@ -103,7 +104,7 @@ export default function Sidebar() {
       </div>
       {showMenu && (
         <div
-          className={`min-w-0 max-w-[400px] drop-shadow-md h-screen bg-white text-black sm:flex flex-col gap-10 pt-20 items-center transform px-8 relative -z-50 transition duration-200 `}
+          className={`min-w-0 max-w-[400px] drop-shadow-md h-screen bg-white text-black sm:flex flex-col gap-10 pt-20 items-center transform px-8 relative -z-50 transition duration-200 dark:bg-dark-gray-2 dark:text-light-white `}
         >
           <h3 className='text-2xl font-bold'>{content.title}</h3>
           <div className='text-lg'>

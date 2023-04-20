@@ -3,8 +3,14 @@ import logo from '../Assets/Images/logo.png'
 import { questions } from '../utils/faq'
 import { Link, useNavigate } from 'react-router-dom'
 import NewLayout from '../Layout/NewLayout'
-import { useDispatch } from 'react-redux'
-import { setInputUser } from '../Features/chat/chatSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  getState,
+  setChatLog,
+  setInputUser,
+  setLoading,
+} from '../Features/chat/chatSlice'
+import moment from 'moment'
 
 const generateQuestions = () => {
   const shuffled = questions.sort(() => 0.5 - Math.random())
@@ -15,10 +21,60 @@ function NewHome() {
   const [pickedQuestions, setPickedQuestions] = useState([])
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const initialState = useSelector(getState)
   useEffect(() => {
     // randomly pick 6 question
     setPickedQuestions(generateQuestions())
   }, [])
+
+  const handleClick = async (item) => {
+    const now = new Date()
+    const formattedDate = moment(now).format('h:mm A')
+    dispatch(setLoading(true))
+    dispatch(
+      setChatLog({
+        speaker: 'user',
+        message: item,
+        time: formattedDate,
+      })
+    )
+
+    setTimeout(() => {
+      dispatch(setLoading(false))
+    }, 800)
+
+    setTimeout(() => {
+      dispatch(
+        setChatLog({
+          speaker: 'bot',
+          message:
+            'Saya tidak mengerti apa yang anda maksud! Mohon tunggu sebentar',
+          time: formattedDate,
+        })
+      )
+    }, 801)
+
+    setTimeout(() => {
+      localStorage.setItem(
+        'chatLog',
+        JSON.stringify([
+          ...initialState.chatLog,
+          {
+            speaker: 'user',
+            message: item,
+            time: formattedDate,
+          },
+          {
+            speaker: 'bot',
+            message:
+              'Saya tidak mengerti apa yang anda maksud! Mohon tunggu sebentar',
+            time: formattedDate,
+          },
+        ])
+      )
+    }, 800)
+    dispatch(setInputUser(''))
+  }
 
   return (
     <NewLayout>
@@ -39,9 +95,9 @@ function NewHome() {
             }`}
           >
             <div
-              className='cursor-pointer bg-white max-w-[260px] h-fit rounded-[10px] shadow-lg p-4 hover:scale-105 transition ease-in-out duration-300'
+              className='cursor-pointer bg-white max-w-[260px] h-fit rounded-[10px] shadow-lg p-4 hover:scale-105 transition ease-in-out duration-300 dark:bg-dark-gray-3 dark:text-light-white'
               onClick={() => {
-                dispatch(setInputUser(item))
+                handleClick(item)
                 navigate('/chat')
               }}
               key={i}
