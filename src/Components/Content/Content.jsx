@@ -19,7 +19,7 @@ const content = {
 
 function Content() {
   return (
-    <div className='hidden  max-w-[400px]  drop-shadow-md h-screen bg-white text-black sm:flex flex-col gap-10 pt-20 items-center px-8 '>
+    <div className='hidden max-w-[400px]  drop-shadow-md h-screen bg-white text-black sm:flex flex-col gap-10 pt-20 items-center px-8 '>
       <h3 className='text-2xl font-bold'>{content.title}</h3>
       <div className='text-lg'>
         <p>{content.desc.isi}</p>

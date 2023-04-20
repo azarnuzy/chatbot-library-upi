@@ -4,6 +4,7 @@ import Footer from './Components/Footer/Footer'
 import Navbar from './Components/Navbar/Navbar'
 import Home from './Pages/Home'
 import NewHome from './Pages/NewHome'
+import ChatPage from './Pages/Chat'
 
 function App() {
   return (
@@ -16,6 +17,10 @@ function App() {
         <Route
           path='/chatbot'
           element={<NewHome />}
+        />
+        <Route
+          path='/chat'
+          element={<ChatPage />}
         />
       </Routes>
     </>

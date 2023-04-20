@@ -78,19 +78,20 @@ const Moon = ({ className }) => {
   )
 }
 
-const Robot = () => {
+const Robot = ({ className }) => {
   return (
     <>
       <svg
         width='37'
         height='38'
+        className={className}
         viewBox='0 0 37 38'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'
       >
         <mask
           id='mask0_118_299'
-          style='mask-type:luminance'
+          style={{ 'mask-type': 'luminance' }}
           maskUnits='userSpaceOnUse'
           x='1'
           y='2'
@@ -159,12 +160,13 @@ const Send = () => {
   )
 }
 
-const User = () => {
+const User = ({ className }) => {
   return (
     <>
       <svg
         width='20'
         height='20'
+        className={className}
         viewBox='0 0 20 20'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'
@@ -178,4 +180,42 @@ const User = () => {
   )
 }
 
-export { HomeIcon, Chat, Moon, Sun, Robot, Send, User }
+const Menu = () => (
+  <svg
+    width='32'
+    height='32'
+    viewBox='0 0 24 24'
+    fill='none'
+    xmlns='http://www.w3.org/2000/svg'
+  >
+    <path
+      d='M12 17H5M19 12H5M19 7H5'
+      stroke='#F8F8F8'
+      strokeWidth='2'
+      strokeLinecap='round'
+      strokeLinejoin='round'
+    />
+  </svg>
+)
+
+const Dot = ({ className }) => {
+  return (
+    <>
+      <svg
+        width='30'
+        height='30'
+        viewBox='0 0 30 30'
+        fill='none'
+        className={className}
+        xmlns='http://www.w3.org/2000/svg'
+      >
+        <path
+          d='M18.2813 15C18.2813 15.649 18.0888 16.2834 17.7283 16.823C17.3677 17.3626 16.8553 17.7831 16.2557 18.0315C15.6561 18.2798 14.9964 18.3448 14.3599 18.2182C13.7234 18.0916 13.1387 17.7791 12.6798 17.3202C12.2209 16.8613 11.9084 16.2766 11.7818 15.6401C11.6552 15.0036 11.7202 14.3439 11.9685 13.7443C12.2169 13.1448 12.6374 12.6323 13.177 12.2717C13.7166 11.9112 14.351 11.7188 15 11.7188C15.8702 11.7188 16.7048 12.0645 17.3202 12.6798C17.9355 13.2952 18.2813 14.1298 18.2813 15Z'
+          fill='black'
+        />
+      </svg>
+    </>
+  )
+}
+
+export { HomeIcon, Chat, Moon, Sun, Robot, Send, User, Menu, Dot }
