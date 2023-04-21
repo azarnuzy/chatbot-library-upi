@@ -21,7 +21,7 @@ function About() {
   return (
     <NewLayout>
       <div
-        className={`min-w-0 px-4 mt-10 w-full drop-shadow-md  bg-transparent text-white sm:flex flex-col gap-10 pt-20 items-center transform relative -z-50 transition duration-200   `}
+        className={`min-w-0 px-4 mt-10 w-full drop-shadow-md  bg-transparent dark:text-white text-dark-gray sm:flex flex-col gap-10 pt-20 items-center transform relative -z-50 transition duration-200   `}
       >
         <h3 className='text-2xl font-bold'>{content.title}</h3>
         <div className='text-lg'>

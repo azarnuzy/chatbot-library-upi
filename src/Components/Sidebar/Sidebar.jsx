@@ -154,6 +154,26 @@ export default function Sidebar() {
             </Link>
           </div>
         </div>
+        <button
+          className={`flex items-center relative justify-center w-[50px]  rounded-full flex-col border border-1 border-dark-gray-4 broder-solid py-1 outline-none transition duration-200 shadow-inner  gap-4`}
+          onClick={() => {
+            toggleDarkMode()
+          }}
+        >
+          <Sun
+            className={`relative z-10 w-[40px] h-[40px] transition-opacity duration-200 `}
+          />
+          <Moon
+            className={`relative z-10 w-[40px] h-[40px] transition-opacity duration-200 `}
+          />
+          <div
+            className={`w-[46px] absolute z-0 h-[46px] p-1 rounded-full ${
+              darkMode && 'bg-light-red'
+            } ${!darkMode && 'bg-dark-gray-3'} transition-all transform ${
+              darkMode ? '-translate-y-7' : 'translate-y-7'
+            }`}
+          ></div>
+        </button>
       </div>
       {/* Desktop Sidebar */}
       <div className='hidden max-w-[80px] px-4 bg-dark-gray sm:flex flex-col h-screen drop-shadow-2xl justify-between py-8 w-[80px] items-center'>
