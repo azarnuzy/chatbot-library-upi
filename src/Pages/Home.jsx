@@ -59,10 +59,10 @@ function Home() {
         'http://perpustakaan.upi.edu:4000/v1/api/message',
         {
           input: input.toLowerCase(),
-        },
-        {
-          withCredentials: true,
         }
+        // {
+        //   withCredentials: true,
+        // }
       )
 
       const message = res.data.data.message

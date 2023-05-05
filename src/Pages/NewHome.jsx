@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import logo from '../Assets/Images/logo.png'
 import { questions } from '../utils/faq'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import NewLayout from '../Layout/NewLayout'
 import { useDispatch, useSelector } from 'react-redux'
 import {
+  fetchChatRespon,
   getState,
   setChatLog,
   setInputUser,
@@ -28,6 +29,8 @@ function NewHome() {
   }, [])
 
   const handleClick = async (item) => {
+    await dispatch(fetchChatRespon({ input: item }))
+
     const now = new Date()
     const formattedDate = moment(now).format('h:mm A')
     dispatch(setLoading(true))
@@ -47,8 +50,7 @@ function NewHome() {
       dispatch(
         setChatLog({
           speaker: 'bot',
-          message:
-            'Saya tidak mengerti apa yang anda maksud! Mohon tunggu sebentar',
+          message: initialState.response,
           time: formattedDate,
         })
       )
@@ -93,6 +95,7 @@ function NewHome() {
             className={`flex justify-center ${
               i % 2 === 0 ? 'sm:justify-end' : 'sm:justify-start'
             }`}
+            key={i}
           >
             <div
               className='cursor-pointer bg-white max-w-[260px] h-fit rounded-[10px] shadow-lg p-4 hover:scale-105 transition ease-in-out duration-300 dark:bg-dark-gray-3 dark:text-light-white'

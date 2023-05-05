@@ -1,23 +1,23 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import axios from 'axios'
 
-// export const fetchValidateList = createAsyncThunk(
-//     'admin/fetchValidateList',
-//     async ({ page, size }) => {
-//       try {
-//         const params = { page: page, size: size, 'created-at': 'newest' };
-//         const response = await axiosClient.get(
-//           `${apiConfig.baseUrl}booking/validate-list`,
-//           {
-//             params,
-//           }
-//         );
-
-//         return response.data;
-//       } catch (error) {
-//         console.error(error);
-//       }
-//     }
-//   );
+export const fetchChatRespon = createAsyncThunk(
+  'chat/fetchChatRespon',
+  async ({ input }) => {
+    try {
+      const response = await axios.get(
+        `https://perpustakaan.upi.edu:4000/v1/api/message`,
+        {
+          input: input.toLowerCase(),
+        }
+      )
+      console.log(response)
+      return response.data
+    } catch (error) {
+      console.error(error)
+    }
+  }
+)
 let tempChatLog = []
 if (localStorage.getItem('chatLog')) {
   tempChatLog = JSON.parse(localStorage.getItem('chatLog'))
@@ -28,11 +28,11 @@ if (localStorage.getItem('mode')) {
   tempMode = JSON.parse(localStorage.getItem('mode'))
 }
 
-console.log(tempMode)
 const initialState = {
   inputUser: '',
   darkMode: tempMode,
   showMenu: true,
+  response: '',
   chatLog: tempChatLog,
   isLoading: false,
 }
@@ -55,9 +55,9 @@ export const chatSlice = createSlice({
     },
   },
   extraReducers(builder) {
-    // builder.addCase(fetchUser.fulfilled, (state, action) => {
-    //   state.users = action.payload
-    // })
+    builder.addCase(fetchChatRespon.fulfilled, (state, action) => {
+      state.response = action.payload
+    })
   },
 })
 

@@ -3,6 +3,7 @@ import Sidebar from '../Components/Sidebar/Sidebar'
 import { Send } from '../Assets/Icons/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import {
+  fetchChatRespon,
   getState,
   setChatLog,
   setInputUser,
@@ -40,6 +41,7 @@ function NewLayout({ children }) {
   }
 
   const handleSubmit = async (e) => {
+    dispatch(fetchChatRespon({ input: initialState.inputUser }))
     e.preventDefault()
     // To get date time
     const now = new Date()
