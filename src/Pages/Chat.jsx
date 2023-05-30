@@ -12,7 +12,8 @@ function ChatPage() {
       <div className='flex flex-col gap-4 w-full mt-16 sm:mt-0'>
         {initialState.chatLog.map((item, i) => {
           // console.log(initialState.isLoading)
-          console.log(item)
+          // console.log(item?.message?.data?.message)
+          // console.log(item)
           return (
             <div
               className={`flex gap-3 ${
@@ -24,8 +25,11 @@ function ChatPage() {
               {i % 2 === 1 && item.speaker === 'bot' && (
                 <>
                   <Robot className='p-1 w-[40px] h-[40px] rounded-full  flex items-center justify-center border-[0.5px] border-solid  transition duration-150 cursor-pointer bg-light-red border-transparent hover:border-transparent hover:opacity-90 shadow-md' />
-                  <div className='relative p-3 rounded-xl bg-white dark:bg-dark-gray-3 dark:text-light-white shadow-xl'>
-                    <p className='mr-3 mb-1'>{item?.message?.data?.message}</p>
+                  <div className='relative p-3 rounded-xl max-w-[90%] bg-white dark:bg-dark-gray-3 dark:text-light-white shadow-xl'>
+                    <p className='mr-3 mb-1'>
+                      {item?.message?.data?.message ||
+                        'Maaf saya tidak mengerti, tolong tanyakan beberapa saat lagi'}
+                    </p>
                     <p className='text-[11px] text-dark-gray-3 text-end dark:text-light-white'>
                       {item.time}
                     </p>
@@ -36,7 +40,7 @@ function ChatPage() {
               {/* User Input */}
               {i % 2 === 0 && item.speaker === 'user' && (
                 <>
-                  <div className='relative p-3 rounded-xl bg-white shadow-xl dark:bg-dark-gray-3 dark:text-light-white'>
+                  <div className='relative p-3 rounded-xl max-w-[90%] bg-white shadow-xl dark:bg-dark-gray-3 dark:text-light-white'>
                     <p className='mr-3 mb-1'>{item?.message}</p>
                     <p className='text-[11px] text-dark-gray-3 text-end dark:text-light-white'>
                       {item.time}
@@ -53,7 +57,7 @@ function ChatPage() {
         {initialState.isLoading && (
           <div className='flex gap-3 '>
             <Robot className='p-1 w-[40px] h-[40px] rounded-full  flex items-center justify-center border-[0.5px] border-solid  transition duration-150 cursor-pointer bg-light-red border-transparent hover:border-transparent hover:opacity-90 shadow-md' />
-            <div className='relative p-3 rounded-xl py-5 dark:bg-dark-gray-3 bg-white shadow-xl'>
+            <div className='relative p-3 rounded-xl max-w-[90%] py-5 dark:bg-dark-gray-3 bg-white shadow-xl'>
               <div className='flex items-center justify-center'>
                 <div
                   className='mr-1 animate-bounce  flex items-center '

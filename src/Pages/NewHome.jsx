@@ -12,6 +12,7 @@ import {
   setLoading,
 } from '../Features/chat/chatSlice'
 import moment from 'moment'
+import axios from 'axios'
 
 const generateQuestions = () => {
   const shuffled = questions.sort(() => 0.5 - Math.random())
@@ -29,7 +30,7 @@ function NewHome() {
   }, [])
 
   const handleClick = async (item) => {
-    await dispatch(fetchChatRespon({ input: item }))
+    // await dispatch(fetchChatRespon({ input: item }))
 
     const now = new Date()
     const formattedDate = moment(now).format('h:mm A')
@@ -42,39 +43,72 @@ function NewHome() {
       })
     )
 
-    setTimeout(() => {
-      dispatch(setLoading(false))
-    }, 800)
-
-    setTimeout(() => {
-      dispatch(
-        setChatLog({
-          speaker: 'bot',
-          message: initialState.response,
-          time: formattedDate,
-        })
-      )
-    }, 801)
-
-    setTimeout(() => {
-      localStorage.setItem(
-        'chatLog',
-        JSON.stringify([
-          ...initialState.chatLog,
+    const fetchChatRespon = async () => {
+      try {
+        const response = await axios.post(
+          `http://perpustakaan.upi.edu:4000/v1/api/message`,
           {
-            speaker: 'user',
-            message: item,
-            time: formattedDate,
+            input: item,
           },
           {
-            speaker: 'bot',
-            message: initialState.response,
-            time: formattedDate,
-          },
-        ])
-      )
-    }, 800)
-    dispatch(setInputUser(''))
+            withCredentials: true,
+          }
+        )
+
+        setTimeout(() => {}, 800)
+        // set bot to chatlog state
+        setTimeout(() => {
+          // console.log('2', initialState.response)
+          dispatch(
+            setChatLog({
+              speaker: 'bot',
+              message: response.data,
+              time: formattedDate,
+            })
+          )
+
+          // waiting animation done
+          dispatch(setLoading(false))
+
+          // scrollToBottom()
+        }, 801)
+
+        dispatch(setInputUser(''))
+
+        setTimeout(() => {
+          localStorage.setItem(
+            'chatLog',
+            JSON.stringify([
+              ...initialState.chatLog,
+              {
+                speaker: 'user',
+                message: item,
+                time: formattedDate,
+              },
+              {
+                speaker: 'bot',
+
+                message: response.data,
+
+                time: formattedDate,
+              },
+            ])
+          )
+          // scrollToBottom()
+          navigate('/chat')
+        }, 800)
+        // scroll to bottom newest chat
+        // setTimeout(() => {
+        //   scrollToBottom()
+        // }, 400)
+        // console.log(response)
+        return response.data
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    fetchChatRespon()
   }
 
   return (

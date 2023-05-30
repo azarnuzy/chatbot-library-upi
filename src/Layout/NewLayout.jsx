@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
   fetchChatRespon,
   getState,
+  initFetch,
   setChatLog,
   setInputUser,
   setIsFirstRender,
@@ -12,6 +13,7 @@ import {
 } from '../Features/chat/chatSlice'
 import moment from 'moment'
 import { useLocation, useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 function NewLayout({ children }) {
   const dispatch = useDispatch()
@@ -24,10 +26,10 @@ function NewLayout({ children }) {
 
   useEffect(() => {
     // get initial data
-
+    console.log('1', initialState.response)
     if (initialState.isFirstRender === false) {
-      dispatch(fetchChatRespon({ input: 'Halo' }))
-      console.log('render ')
+      dispatch(initFetch({ input: 'Halo' }))
+      // console.log('render ')
       dispatch(setIsFirstRender(true))
     }
 
@@ -37,7 +39,12 @@ function NewLayout({ children }) {
     setTimeout(() => {
       scrollToBottom()
     }, 0)
-  }, [dispatch, initialState.isFirstRender])
+  }, [
+    dispatch,
+    initialState.isFirstRender,
+    initialState.response,
+    initialState.chatLog,
+  ])
 
   // when user add message it will be scroll to bottom for the newest messages
   const scrollToBottom = () => {
@@ -50,8 +57,9 @@ function NewLayout({ children }) {
   }
 
   const handleSubmit = async (e) => {
-    dispatch(fetchChatRespon({ input: initialState.inputUser }))
     e.preventDefault()
+    // await dispatch(fetchChatRespon({ input: initialState.inputUser }))
+
     // To get date time
     const now = new Date()
     const formattedDate = moment(now).format('h:mm A')
@@ -65,54 +73,71 @@ function NewLayout({ children }) {
         time: formattedDate,
       })
     )
-    // waiting animation done
-    setTimeout(() => {
-      dispatch(setLoading(false))
-    }, 800)
-    // set bot to chatlog state
-    setTimeout(() => {
-      dispatch(
-        setChatLog({
-          speaker: 'bot',
-          message: initialState.response,
-          time: formattedDate,
-        })
-      )
-    }, 801)
 
-    dispatch(setInputUser(''))
-
-    setTimeout(() => {
-      localStorage.setItem(
-        'chatLog',
-        JSON.stringify([
-          ...initialState.chatLog,
+    const fetchChatRespon = async () => {
+      try {
+        const response = await axios.post(
+          `http://perpustakaan.upi.edu:4000/v1/api/message`,
           {
-            speaker: 'user',
-            message: {
-              data: {
+            input: initialState.inputUser,
+          },
+          {
+            withCredentials: true,
+          }
+        )
+
+        // set bot to chatlog state
+        setTimeout(() => {
+          // console.log('2', initialState.response)
+          dispatch(
+            setChatLog({
+              speaker: 'bot',
+              message: response.data,
+              time: formattedDate,
+            })
+          )
+          // Scroll to Bottom
+          scrollToBottom()
+          // waiting animation done
+          dispatch(setLoading(false))
+        }, 801)
+
+        dispatch(setInputUser(''))
+
+        setTimeout(() => {
+          localStorage.setItem(
+            'chatLog',
+            JSON.stringify([
+              ...initialState.chatLog,
+              {
+                speaker: 'user',
                 message: initialState.inputUser,
+                time: formattedDate,
               },
-            },
-            time: formattedDate,
-          },
-          {
-            speaker: 'bot',
-            message: {
-              data: {
-                message: initialState.response,
+              {
+                speaker: 'bot',
+
+                message: response.data,
+
+                time: formattedDate,
               },
-            },
-            time: formattedDate,
-          },
-        ])
-      )
-      navigate('/chat')
-    }, 800)
-    // scroll to bottom newest chat
-    setTimeout(() => {
-      scrollToBottom()
-    }, 0)
+            ])
+          )
+          scrollToBottom()
+          navigate('/chat')
+        }, 800)
+        // scroll to bottom newest chat
+        setTimeout(() => {
+          scrollToBottom()
+        }, 400)
+        // console.log(response)
+        return response.data
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    fetchChatRespon()
   }
 
   return (

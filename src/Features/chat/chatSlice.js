@@ -9,15 +9,40 @@ export const fetchChatRespon = createAsyncThunk(
         `http://perpustakaan.upi.edu:4000/v1/api/message`,
         {
           input: input.toLowerCase(),
+        },
+        {
+          withCredentials: true,
         }
       )
-      console.log(response)
+      // console.log(response)
       return response.data
     } catch (error) {
       console.error(error)
     }
   }
 )
+
+export const initFetch = createAsyncThunk(
+  'chat/initFetch',
+  async ({ input }) => {
+    try {
+      const response = await axios.post(
+        `http://perpustakaan.upi.edu:4000/v1/api/message`,
+        {
+          input: input.toLowerCase(),
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      // console.log(response)
+      return response.data
+    } catch (error) {
+      console.error(error)
+    }
+  }
+)
+
 let tempChatLog = []
 if (localStorage.getItem('chatLog')) {
   tempChatLog = JSON.parse(localStorage.getItem('chatLog'))
@@ -59,13 +84,21 @@ export const chatSlice = createSlice({
     },
   },
   extraReducers(builder) {
-    builder.addCase(fetchChatRespon.fulfilled, (state, action) => {
-      if (action.payload) {
-        state.response = action.payload
-      } else {
-        state.response = 'maaf saya tidak mengerti'
-      }
-    })
+    builder
+      .addCase(fetchChatRespon.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.response = action.payload
+        } else {
+          state.response = 'maaf saya tidak mengerti'
+        }
+      })
+      .addCase(initFetch.fulfilled, (state, action) => {
+        // if (action.payload) {
+        //   state.response = action.payload
+        // } else {
+        //   state.response = 'maaf saya tidak mengerti'
+        // }
+      })
   },
 })
 
