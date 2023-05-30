@@ -68,8 +68,7 @@ function NewHome() {
           },
           {
             speaker: 'bot',
-            message:
-              'Saya tidak mengerti apa yang anda maksud! Mohon tunggu sebentar',
+            message: initialState.response,
             time: formattedDate,
           },
         ])

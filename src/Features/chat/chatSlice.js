@@ -5,8 +5,8 @@ export const fetchChatRespon = createAsyncThunk(
   'chat/fetchChatRespon',
   async ({ input }) => {
     try {
-      const response = await axios.get(
-        `https://perpustakaan.upi.edu:4000/v1/api/message`,
+      const response = await axios.post(
+        `http://perpustakaan.upi.edu:4000/v1/api/message`,
         {
           input: input.toLowerCase(),
         }
@@ -35,6 +35,7 @@ const initialState = {
   response: '',
   chatLog: tempChatLog,
   isLoading: false,
+  isFirstRender: false,
 }
 
 export const chatSlice = createSlice({
@@ -53,15 +54,27 @@ export const chatSlice = createSlice({
     setChatLog(state, action) {
       state.chatLog = [...state.chatLog, action.payload]
     },
+    setIsFirstRender(state, action) {
+      state.isFirstRender = action.payload
+    },
   },
   extraReducers(builder) {
     builder.addCase(fetchChatRespon.fulfilled, (state, action) => {
-      state.response = action.payload
+      if (action.payload) {
+        state.response = action.payload
+      } else {
+        state.response = 'maaf saya tidak mengerti'
+      }
     })
   },
 })
 
-export const { setDarkMode, setInputUser, setLoading, setChatLog } =
-  chatSlice.actions
+export const {
+  setDarkMode,
+  setInputUser,
+  setLoading,
+  setChatLog,
+  setIsFirstRender,
+} = chatSlice.actions
 export const getState = (state) => state.chat
 export default chatSlice.reducer

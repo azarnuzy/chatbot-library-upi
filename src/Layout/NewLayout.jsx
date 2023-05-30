@@ -7,6 +7,7 @@ import {
   getState,
   setChatLog,
   setInputUser,
+  setIsFirstRender,
   setLoading,
 } from '../Features/chat/chatSlice'
 import moment from 'moment'
@@ -22,13 +23,21 @@ function NewLayout({ children }) {
   const { pathname } = location
 
   useEffect(() => {
+    // get initial data
+
+    if (initialState.isFirstRender === false) {
+      dispatch(fetchChatRespon({ input: 'Halo' }))
+      console.log('render ')
+      dispatch(setIsFirstRender(true))
+    }
+
     // For fade animation when change page
     setIsMounted(true)
     // For scroll bottom from home page
     setTimeout(() => {
       scrollToBottom()
     }, 0)
-  }, [])
+  }, [dispatch, initialState.isFirstRender])
 
   // when user add message it will be scroll to bottom for the newest messages
   const scrollToBottom = () => {
@@ -65,8 +74,7 @@ function NewLayout({ children }) {
       dispatch(
         setChatLog({
           speaker: 'bot',
-          message:
-            'Saya tidak mengerti apa yang anda maksud! Mohon tunggu sebentar',
+          message: initialState.response,
           time: formattedDate,
         })
       )
@@ -81,13 +89,20 @@ function NewLayout({ children }) {
           ...initialState.chatLog,
           {
             speaker: 'user',
-            message: initialState.inputUser,
+            message: {
+              data: {
+                message: initialState.inputUser,
+              },
+            },
             time: formattedDate,
           },
           {
             speaker: 'bot',
-            message:
-              'Saya tidak mengerti apa yang anda maksud! Mohon tunggu sebentar',
+            message: {
+              data: {
+                message: initialState.response,
+              },
+            },
             time: formattedDate,
           },
         ])

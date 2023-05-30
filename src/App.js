@@ -13,7 +13,7 @@ function App() {
       <Routes>
         <Route
           path='/'
-          element={<Home />}
+          element={<NewHome />}
         />
         <Route
           path='/chatbot'
