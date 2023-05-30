@@ -26,7 +26,7 @@ function NewLayout({ children }) {
 
   useEffect(() => {
     // get initial data
-    console.log('1', initialState.response)
+    // console.log('1', initialState.response)
     if (initialState.isFirstRender === false) {
       dispatch(initFetch({ input: 'Halo' }))
       // console.log('render ')
@@ -154,7 +154,7 @@ function NewLayout({ children }) {
         <div
           ref={containerRef}
           style={{ scrollBehavior: 'smooth' }}
-          className={`h-[85vh] sm:h-[86vh] py-8 lg:h-[85vh] pt-4 overflow-x-hidden transform overflow-y-scroll  p-2 transition-all duration-500 ease-in-out max-w-4xl w-full mx-auto  opacity-0 ${
+          className={`h-[85vh] sm:h-[86vh] sm:py-8 lg:h-[85vh] pt-4 overflow-x-hidden transform overflow-y-scroll  p-2 transition-all duration-500 ease-in-out max-w-4xl w-full mx-auto  opacity-0 ${
             isMounted ? 'opacity-100' : 'opacity-0'
           }`}
         >
